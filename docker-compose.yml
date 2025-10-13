@@ -1,0 +1,31 @@
+name: "data-copy"
+services:
+
+  source-db:
+    image: postgres:18
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: pass
+    volumes:
+      - ./src/test/resources/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
+      - ./src/test/resources/data.sql:/docker-entrypoint-initdb.d/02_data.sql
+      - source-db-data:/var/lib/postgresql
+
+  target-db:
+    image: postgres:18
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: pass
+    volumes:
+      - ./src/test/resources/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
+      - target-db-data:/var/lib/postgresql
+
+volumes:
+  source-db-data:
+  target-db-data:

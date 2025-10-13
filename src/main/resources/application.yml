@@ -1,0 +1,18 @@
+spring:
+  main:
+    web-application-type: none
+  application:
+    name: spring-data-copy
+  datasource:
+    source:
+      url: ???
+      username: ???
+      password: ???
+    target:
+      url: ???
+      username: ???
+      password: ???
+
+app.copy:
+  tables:
+    - ???
