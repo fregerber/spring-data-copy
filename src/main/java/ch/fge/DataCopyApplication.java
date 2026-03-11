@@ -1,5 +1,6 @@
 package ch.fge;
 
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -13,7 +14,7 @@ public class DataCopyApplication implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(DataCopyApplication.class);
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         SpringApplication.run(DataCopyApplication.class, args);
     }
 
@@ -28,13 +29,17 @@ public class DataCopyApplication implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) {
+    public void run(String @NonNull ... args) {
         infoService.connect();
         logger.info("Starting");
+        copyConfig.tables().reversed().forEach(tableName -> {
+            logger.info("Clearing {} ({} rows)", tableName, infoService.getRowCount(tableName));
+            var tableInfo = infoService.getTableInfo(tableName);
+            copyService.clear(tableInfo);
+        });
         copyConfig.tables().forEach(tableName -> {
             logger.info("Copying {} ({} rows)", tableName, infoService.getRowCount(tableName));
             var tableInfo = infoService.getTableInfo(tableName);
-            copyService.clear(tableInfo);
             copyService.copy(tableInfo);
         });
         logger.info("Completed");

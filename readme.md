@@ -4,7 +4,7 @@ Spring Konsolenapplikation zum Kopieren von Daten von einer Quell- zu einer Ziel
 
 ## Konfiguration
 
-Datei apllication.yml im Verzeichnis [config](/config) erstellen
+Datei application.yml im Verzeichnis [config](/config) erstellen
 
 ``` yaml
 spring:
