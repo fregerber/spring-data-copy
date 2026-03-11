@@ -33,7 +33,7 @@ public class DataCopyApplication implements CommandLineRunner {
         infoService.connect();
         logger.info("Starting");
         copyConfig.tables().reversed().forEach(tableName -> {
-            logger.info("Clearing {} ({} rows)", tableName, infoService.getRowCount(tableName));
+            logger.info("Clearing {}", tableName);
             var tableInfo = infoService.getTableInfo(tableName);
             copyService.clear(tableInfo);
         });
